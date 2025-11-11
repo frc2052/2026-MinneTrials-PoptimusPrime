@@ -4,13 +4,16 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivetrainConstants;
@@ -64,14 +67,35 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     odometry = new DifferentialDriveOdometry(
       Rotation2d.fromDegrees(getGyroAngleDegrees()),
-      null,
-      null);
+      getLeftEncoderPos(),
+      getRightEncoderPos());
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     System.out.println(getGyroAngleDegrees());
+  }
+
+  public Pose2d getPose() {
+    return odometry.getPoseMeters();
+  }
+
+  public double positionToDistance(double position) {
+    double distance = (position / DrivetrainConstants.TICKS_PER_ROTATION) * DrivetrainConstants.WHEEL_CIRCUMFERENCE;
+    return distance;
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(getLeftEncoderVelo(), getRightEncoderVelo()); 
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    odometry.resetPosition(
+      Rotation2d.fromDegrees(getGyroAngleDegrees()),
+      positionToDistance(leftMotorSRX.getSelectedSensorPosition()),
+      positionToDistance(rightMotorSRX.getSelectedSensorPosition()),
+      pose);
   }
 
   // ------ ENCODER METHODS ------ //
@@ -81,6 +105,27 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public double getRightEncoderPos() {
     return rightMotorSRX.getSelectedSensorPosition();
+  }
+
+  public double getLeftEncoderVelo() {
+    return positionToDistance(leftMotorSRX.getSelectedSensorVelocity());
+  }
+
+  public double getRightEncoderVelo() {
+    return positionToDistance(rightMotorSRX.getSelectedSensorVelocity());
+  }
+
+  public double getAverageEncoderDistance() {
+    double avgDist = (positionToDistance(leftMotorSRX.getSelectedSensorPosition()) + 
+        positionToDistance(rightMotorSRX.getSelectedSensorPosition())) / 2.0;
+    return avgDist;
+  }
+
+  public void resetEncoders() {
+    leftMotorSRX.setSelectedSensorPosition(0, DrivetrainConstants.VELOCITY_CONTROL_SLOT,
+        DrivetrainConstants.CAN_TIMEOUT);
+    rightMotorSRX.setSelectedSensorPosition(0, DrivetrainConstants.VELOCITY_CONTROL_SLOT,
+        DrivetrainConstants.CAN_TIMEOUT);
   }
 
   // ------ GYRO METHODS ------ //
@@ -106,5 +151,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void tankDrive(double leftSpeed, double rightSpeed) {
     diffDrive.tankDrive(leftSpeed, rightSpeed);
     diffDrive.feed();
+  }
+
+  public void stop() {
+    leftMotorSRX.set(ControlMode.PercentOutput, 0);
+    rightMotorSRX.set(ControlMode.PercentOutput, 0);
+    leftMotorSRX.feed();
+    rightMotorSRX.feed();
   }
 }

@@ -10,17 +10,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ArcadeDriveCommand extends Command {
-
+public class TankDriveCommand extends Command {
+  
   private final DrivetrainSubsystem drivetrain;
-  private final Supplier<Double> speedSupplier;
-  private final Supplier<Double> rotationSupplier;
+  private final Supplier<Double> leftSpeedSupplier;
+  private final Supplier<Double> rightSpeedSupplier; 
 
-  /** Creates a new ArcadeDriveCommand. */
-  public ArcadeDriveCommand(DrivetrainSubsystem drivetrain, Supplier<Double> speedSupplier, Supplier<Double> rotationsSupplier) {
+  /** Creates a new TankDriveCommand. */
+  public TankDriveCommand(DrivetrainSubsystem drivetrain, Supplier<Double> leftSpeed, Supplier<Double> rightSpeed) {
     this.drivetrain = drivetrain;
-    this.speedSupplier = speedSupplier;
-    this.rotationSupplier = rotationsSupplier;
+    leftSpeedSupplier = leftSpeed;
+    rightSpeedSupplier = rightSpeed;
     // Use addRequirements() here to declare subsystem dependencies.
 
     addRequirements(drivetrain);
@@ -33,7 +33,7 @@ public class ArcadeDriveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.arcadeDrive(speedSupplier.get(),rotationSupplier.get());
+    drivetrain.arcadeDrive(leftSpeedSupplier.get(), rightSpeedSupplier.get());
   }
 
   // Called once the command ends or is interrupted.
