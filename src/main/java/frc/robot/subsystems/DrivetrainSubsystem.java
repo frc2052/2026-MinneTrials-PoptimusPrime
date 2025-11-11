@@ -19,54 +19,53 @@ public class DrivetrainSubsystem extends SubsystemBase {
   /** Creates a new DrivetrainSubsystem. */
   private final Pigeon2 pigeonGyro;
 
-  private final WPI_TalonSRX leftMotorSRX;
-  private final WPI_TalonSRX rightMotorSRX;
+  private final WPI_TalonSRX leftmotor;
+  private final WPI_TalonSRX rightmotor;
   
-  private final DifferentialDriveOdometry odometry;
   private final DifferentialDrive diffDrive;
 
   public DrivetrainSubsystem() {
-    leftMotorSRX = new WPI_TalonSRX(DrivetrainConstants.LEFT_MOTOR_ID);
-    rightMotorSRX = new WPI_TalonSRX(DrivetrainConstants.RIGHT_MOTOR_ID);
+    leftmotor = new WPI_TalonSRX(DrivetrainConstants.LEFT_MOTOR_ID);
+    rightmotor = new WPI_TalonSRX(DrivetrainConstants.RIGHT_MOTOR_ID);
     pigeonGyro = new Pigeon2(DrivetrainConstants.PIGEON_ID);
 
-    leftMotorSRX.configFactoryDefault();
-    rightMotorSRX.configFactoryDefault();
+    leftmotor.configFactoryDefault();
+    rightmotor.configFactoryDefault();
 
-    leftMotorSRX.setSafetyEnabled(true);
-    rightMotorSRX.setSafetyEnabled(true);
+    leftmotor.setSafetyEnabled(true);
+    rightmotor.setSafetyEnabled(true);
 
-    leftMotorSRX.setExpiration(0.1);
-    rightMotorSRX.setExpiration(0.1);
+    leftmotor.setExpiration(0.1);
+    rightmotor.setExpiration(0.1);
 
-    leftMotorSRX.configSelectedFeedbackSensor(
+    leftmotor.configSelectedFeedbackSensor(
       FeedbackDevice.QuadEncoder,
       DrivetrainConstants.VELOCITY_CONTROL_SLOT,
       DrivetrainConstants.CAN_TIMEOUT);
 
-    rightMotorSRX.configSelectedFeedbackSensor(
+    rightmotor.configSelectedFeedbackSensor(
       FeedbackDevice.QuadEncoder,
       DrivetrainConstants.VELOCITY_CONTROL_SLOT,
       DrivetrainConstants.CAN_TIMEOUT);
 
-    leftMotorSRX.setNeutralMode(NeutralMode.Brake);
-    rightMotorSRX.setNeutralMode(NeutralMode.Brake);
+    leftmotor.setNeutralMode(NeutralMode.Brake);
+    rightmotor.setNeutralMode(NeutralMode.Brake);
 
-    leftMotorSRX.setSensorPhase(true);
-    rightMotorSRX.setSensorPhase(true);
+    leftmotor.setSensorPhase(true);
+    rightmotor.setSensorPhase(true);
 
-    leftMotorSRX.setInverted(true);
-    rightMotorSRX.setInverted(false);
+    leftmotor.setInverted(true);
+    rightmotor.setInverted(false);
 
 
 
-    diffDrive = new DifferentialDrive(leftMotorSRX, rightMotorSRX);
+    diffDrive = new DifferentialDrive(leftmotor, rightmotor);
 
-    odometry = new DifferentialDriveOdometry(
+    new DifferentialDriveOdometry(
       Rotation2d.fromDegrees(getGyroAngleDegrees()),
       null,
       null);
-  }
+   }
 
   @Override
   public void periodic() {
@@ -76,11 +75,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   // ------ ENCODER METHODS ------ //
   public double getLeftEncoderPos() {
-    return leftMotorSRX.getSelectedSensorPosition();
+    return leftmotor.getSelectedSensorPosition();
   }
 
   public double getRightEncoderPos() {
-    return rightMotorSRX.getSelectedSensorPosition();
+    return rightmotor.getSelectedSensorPosition();
   }
 
   // ------ GYRO METHODS ------ //
