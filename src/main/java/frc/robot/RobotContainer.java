@@ -9,7 +9,8 @@ import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+//import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+// import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -24,6 +25,7 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final Joystick joystick = new Joystick(1);
+  // private final JoystickButton zeroButton = new JoystickButton(joystick, 0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -47,10 +49,18 @@ public class RobotContainer {
 
   public Command getArcadeDriveCommand() {
     return new ArcadeDriveCommand(
-      drivetrain, () -> joystick.getX(),() -> joystick.getY()
+      drivetrain, () -> getInput(joystick.getX()),() -> getInput(joystick.getY())
+      
     );
   }
-  
+  //This function makes it easier to account for drift or micromovements
+  public double getInput(double rawValue){
+    if (Math.abs(rawValue)<.025) {
+      return 0;
+    } else {
+      return rawValue;
+    }
+  }
   public Command getTankDriveCommand() {
     return null;
   }
@@ -64,4 +74,5 @@ public class RobotContainer {
     // An example command will be run in autonomous
     return null;
   }
+
 }
