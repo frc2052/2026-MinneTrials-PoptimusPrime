@@ -25,6 +25,10 @@ public class IndexerSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public void setSpeed(double speed) {
+    indexMotorSRX.set(speed);
+  }
+
   public void stopMotor() {
     indexMotorSRX.set(ControlMode.PercentOutput, 0);
   }

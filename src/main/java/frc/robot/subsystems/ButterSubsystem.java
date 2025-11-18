@@ -25,7 +25,9 @@ public class ButterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  
+  public void setSpeed(double speed) {
+    butterMotorSRX.set(speed);
+  }
 
   public void stopMotor() {
     butterMotorSRX.set(ControlMode.PercentOutput, 0);

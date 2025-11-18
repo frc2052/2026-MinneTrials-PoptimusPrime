@@ -25,6 +25,10 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public void setSpeed(double speed) {
+    intakeMotorSRX.set(speed);
+  }
+
   public void stopMotor() {
     intakeMotorSRX.set(ControlMode.PercentOutput, 0);
   }
