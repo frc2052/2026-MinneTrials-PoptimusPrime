@@ -31,4 +31,26 @@ public final class Constants {
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(5.9);
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
   }
+
+  public static class ButterConstants {
+    public static final int BUTTER_MOTOR_ID = 2;
+    
+    public static final double INTAKE_SPEED = 0;
+    public static final double OUTTAKE_SPEED = 0;
+  }
+
+  public static class IndexerConstants {
+    public static final int INDEXER_MOTOR_ID = 3;
+    public static final double INDEX_SPEED = 0;
+  }
+
+  public static class IntakeConstants {
+    public static final int INTAKE_MOTOR_ID = 4;
+    public static final int INTAKE_SPEED = 0;
+  }
+
+  public static class ShooterConstants {
+    public static final int SHOOTER_MOTOR_ID = 5;
+    public static final int SHOT_SPEED = 0;
+  }
 }
