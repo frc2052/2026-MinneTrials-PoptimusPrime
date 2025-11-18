@@ -55,7 +55,7 @@ public class RobotContainer {
   }
   //This function makes it easier to account for drift or micromovements
   public double getInput(double rawValue){
-    if (Math.abs(rawValue)<.025) {
+    if (Math.abs(rawValue)<.05) {
       return 0;
     } else {
       return rawValue;
