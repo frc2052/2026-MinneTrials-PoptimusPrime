@@ -16,4 +16,12 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+  public static class MotorSpeeds {
+    public static final double popcornIndexerMotorSpeed = .8;
+    public static final double popcornShooterMotorSpeed = .8;
+    public static final double popcornIntakeMotorSpeed = .6;
+
+  }
+
+
 }

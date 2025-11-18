@@ -19,7 +19,6 @@ public class ArcadeDriveCommand extends Command {
     this.drivetrain = drivetrain;
     this.speedSupplier = speedSupplier;
     this.rotationSupplier = rotationSupplier;
-
     addRequirements(drivetrain);
   }
 
