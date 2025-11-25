@@ -8,13 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.Constants.DrivetrainConstants;
 
+
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class TurnDegrees extends Command {
+public class TurnDegreesCommand extends Command {
   private final DrivetrainSubsystem drivetrain;
   private final double speed, degrees;
 
   /** Creates a new TurnDegrees. */
-  public TurnDegrees(double speed, double degrees, DrivetrainSubsystem drivetrain) {
+  public TurnDegreesCommand(double speed, double degrees, DrivetrainSubsystem drivetrain) {
     this.drivetrain = drivetrain;
     this.speed = speed;
     this.degrees = degrees;

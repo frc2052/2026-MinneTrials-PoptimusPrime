@@ -9,11 +9,11 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ButterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class RunButterWheel extends Command {
+public class RunButterWheelCommand extends Command {
   private final ButterSubsystem butter;
 
   /** Creates a new RunButterWheel. */
-  public RunButterWheel(ButterSubsystem butter) {
+  public RunButterWheelCommand(ButterSubsystem butter) {
     this.butter = butter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(butter);

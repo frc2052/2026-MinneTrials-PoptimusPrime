@@ -5,39 +5,44 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class FireShooterCommand extends Command {
-  private final ShooterSubsystem shooter;
+public class DriveDistanceCommand extends Command {
+  private final double speed, distance;
+  private final DrivetrainSubsystem drivetrain;
 
-  /** Creates a new FireShooter. */
-  public FireShooterCommand(ShooterSubsystem shooter) {
-    this.shooter = shooter;
+  /** Creates a new DriveDistance. */
+  public DriveDistanceCommand(double speed, double ft, DrivetrainSubsystem drivetrain) {
+    this.drivetrain = drivetrain;
+    this.distance = ft;
+    this.speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
+    addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setSpeed(Constants.ShooterConstants.SHOT_SPEED);
+    drivetrain.arcadeDrive(0.0,0.0);
+    drivetrain.resetEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    drivetrain.arcadeDrive(speed,0.0);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopMotor();
+    drivetrain.arcadeDrive(0.0,0.0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Math.abs(drivetrain.getAverageEncoderDistance()) >= distance;
   }
 }

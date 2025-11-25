@@ -29,6 +29,10 @@ public class IndexerSubsystem extends SubsystemBase {
     indexMotorSRX.set(speed);
   }
 
+  public void reverse(double speed) {
+    indexMotorSRX.set(-speed);
+  }
+
   public void stopMotor() {
     indexMotorSRX.set(ControlMode.PercentOutput, 0);
   }

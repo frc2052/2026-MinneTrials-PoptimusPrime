@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.studica.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,7 +22,7 @@ import frc.robot.Constants.DrivetrainConstants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   /** Creates a new DrivetrainSubsystem. */
-  private final Pigeon2 pigeonGyro;
+  private final AHRS navx;
 
   private final WPI_TalonSRX leftMotorSRX;
   private final WPI_TalonSRX rightMotorSRX;
@@ -31,7 +33,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public DrivetrainSubsystem() {
     leftMotorSRX = new WPI_TalonSRX(DrivetrainConstants.LEFT_MOTOR_ID);
     rightMotorSRX = new WPI_TalonSRX(DrivetrainConstants.RIGHT_MOTOR_ID);
-    pigeonGyro = new Pigeon2(DrivetrainConstants.PIGEON_ID);
+    navx = new AHRS(SPI.Port.kMXP);
 
     leftMotorSRX.configFactoryDefault();
     rightMotorSRX.configFactoryDefault();

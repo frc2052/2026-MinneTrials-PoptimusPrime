@@ -17,7 +17,7 @@ public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
     shootMotorSRX = new WPI_TalonSRX(Constants.ShooterConstants.SHOOTER_MOTOR_ID);
-    shootMotorSRX.setNeutralMode(NeutralMode.Brake);
+    shootMotorSRX.setNeutralMode(NeutralMode.Coast);
   }
 
   @Override

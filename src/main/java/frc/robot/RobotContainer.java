@@ -6,11 +6,20 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArcadeDriveCommand;
+import frc.robot.commands.FireShooterCommand;
+import frc.robot.commands.RunButterWheelCommand;
+import frc.robot.commands.RunIndexerCommand;
+import frc.robot.commands.RunIntakeCommand;
 import frc.robot.commands.TankDriveCommand;
+import frc.robot.subsystems.ButterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -22,12 +31,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
+  private final ButterSubsystem butter = new ButterSubsystem();
+  private final IndexerSubsystem indexer = new IndexerSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
 
   private boolean isTankDrive = false;
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   private final Joystick leftJoystick = new Joystick(0);
   private final Joystick rightJoystick = new Joystick(1);
@@ -55,7 +64,17 @@ public class RobotContainer {
         new ArcadeDriveCommand(drivetrain, leftJoystick::getY, leftJoystick::getX)
     );
 
-    //JoystickButton button1 = new JoystickButton()
+    JoystickButton button1 = new JoystickButton(leftJoystick, 1);
+      button1.whileTrue(new RunButterWheelCommand(butter));
+    
+    JoystickButton button2 = new JoystickButton(leftJoystick, 2);
+      button2.whileTrue(new FireShooterCommand(shooter));
+
+    JoystickButton button3 = new JoystickButton(leftJoystick, 3);
+      button3.whileTrue(new RunIntakeCommand(intake));
+
+    JoystickButton button4 = new JoystickButton(leftJoystick, 4);
+      button4.whileTrue(new RunIndexerCommand(indexer));
   }
   
    /**

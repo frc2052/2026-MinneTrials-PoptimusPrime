@@ -5,25 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class FireShooterCommand extends Command {
-  private final ShooterSubsystem shooter;
-
-  /** Creates a new FireShooter. */
-  public FireShooterCommand(ShooterSubsystem shooter) {
-    this.shooter = shooter;
+public class AutoButterCommand extends Command {
+  /** Creates a new AutoButterCommand. */
+  public AutoButterCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    shooter.setSpeed(Constants.ShooterConstants.SHOT_SPEED);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -31,9 +23,7 @@ public class FireShooterCommand extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    shooter.stopMotor();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
