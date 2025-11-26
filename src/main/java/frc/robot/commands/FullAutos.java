@@ -4,16 +4,27 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.drive.AutonomousDrivetrainCommand;
+import frc.robot.subsystems.ButterSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class FullAutos extends SequentialCommandGroup {
+  
   /** Creates a new FullAutos. */
-  public FullAutos() {
+  public FullAutos(DrivetrainSubsystem drivetrain, ButterSubsystem butter, IndexerSubsystem indexer, ShooterSubsystem shooter, Timer timer) {
+
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands();
+    addCommands(
+      new AutonomousDrivetrainCommand(drivetrain),
+      new AutoButterCommand(butter, 0, timer),
+      new AutoShootCommand(indexer, shooter, timer, 0));
   }
 }

@@ -4,19 +4,21 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.FireShooterCommand;
+import frc.robot.commands.FullAutos;
+import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.commands.RunButterWheelCommand;
 import frc.robot.commands.RunIndexerCommand;
 import frc.robot.commands.RunIntakeCommand;
-import frc.robot.commands.TankDriveCommand;
+import frc.robot.commands.drive.ArcadeDriveCommand;
+import frc.robot.commands.drive.TankDriveCommand;
 import frc.robot.subsystems.ButterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -35,6 +37,7 @@ public class RobotContainer {
   private final IndexerSubsystem indexer = new IndexerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final Timer timer = new Timer();
 
   private boolean isTankDrive = false;
 
@@ -74,7 +77,10 @@ public class RobotContainer {
       button3.whileTrue(new RunIntakeCommand(intake));
 
     JoystickButton button4 = new JoystickButton(leftJoystick, 4);
-      button4.whileTrue(new RunIndexerCommand(indexer));
+      button4.whileTrue(new ReverseIntakeCommand(intake));
+
+    JoystickButton button5 = new JoystickButton(leftJoystick, 5);
+      button5.whileTrue(new RunIndexerCommand(indexer));
   }
   
    /**
@@ -84,6 +90,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return new FullAutos(drivetrain, butter, indexer, shooter, timer);
   }
 }

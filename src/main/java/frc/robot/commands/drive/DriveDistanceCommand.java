@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -11,10 +11,12 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class DriveDistanceCommand extends Command {
   private final double speed, distance;
   private final DrivetrainSubsystem drivetrain;
+  private final boolean isFacingForward;
 
   /** Creates a new DriveDistance. */
-  public DriveDistanceCommand(double speed, double ft, DrivetrainSubsystem drivetrain) {
+  public DriveDistanceCommand(double speed, boolean isFacingForward, double ft, DrivetrainSubsystem drivetrain) {
     this.drivetrain = drivetrain;
+    this.isFacingForward = isFacingForward;
     this.distance = ft;
     this.speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,9 +33,12 @@ public class DriveDistanceCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.arcadeDrive(speed,0.0);
+    if(isFacingForward) {
+      drivetrain.arcadeDrive(speed,0.0); }
+    else {
+      drivetrain.arcadeDrive(-speed, 0);
+    }
   }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
@@ -45,4 +50,4 @@ public class DriveDistanceCommand extends Command {
   public boolean isFinished() {
     return Math.abs(drivetrain.getAverageEncoderDistance()) >= distance;
   }
-}
+} 

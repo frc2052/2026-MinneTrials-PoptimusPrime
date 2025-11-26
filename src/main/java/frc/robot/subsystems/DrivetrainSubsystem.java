@@ -8,9 +8,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix6.hardware.Pigeon2;
 import com.studica.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
+import com.studica.frc.AHRS.NavXComType;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -22,7 +21,7 @@ import frc.robot.Constants.DrivetrainConstants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   /** Creates a new DrivetrainSubsystem. */
-  private final AHRS navx;
+  private final AHRS navxGyro;
 
   private final WPI_TalonSRX leftMotorSRX;
   private final WPI_TalonSRX rightMotorSRX;
@@ -33,7 +32,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public DrivetrainSubsystem() {
     leftMotorSRX = new WPI_TalonSRX(DrivetrainConstants.LEFT_MOTOR_ID);
     rightMotorSRX = new WPI_TalonSRX(DrivetrainConstants.RIGHT_MOTOR_ID);
-    navx = new AHRS(SPI.Port.kMXP);
+    navxGyro = new AHRS(NavXComType.kMXP_SPI);
 
     leftMotorSRX.configFactoryDefault();
     rightMotorSRX.configFactoryDefault();
@@ -131,17 +130,45 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   // ------ GYRO METHODS ------ //
-  public void zeroHeading() {
-    System.out.println("GYRO ZEROED");
-    pigeonGyro.reset();
+  public void zeroHeading(){ // TODO: takes into account an offset - do we need one??
+    System.out.println("========= ZEROING GYRO");
+    navxGyro.zeroYaw();
   }
 
+  public void zeroGyro() {
+    navxGyro.reset();
+  }
+
+  // tracks all rotations from init: can go beyond 360 and -360
   public double getGyroAngleDegrees() {
-    return pigeonGyro.getYaw().getValueAsDouble();
+    if (navxGyro != null)
+    {
+        return navxGyro.getAngle(); 
+    } else {
+        System.out.println("DANGER: NO GYRO!!!!");
+        return 0;
+    }
   }
 
+  // tracks all rotations from init: can go beyond 360 and -360
   public double getGyroAngleRadians() {
-    return Math.toRadians(getGyroAngleDegrees());
+    if (navxGyro != null)
+    {
+        return Math.toRadians(getGyroAngleDegrees()); 
+    } else {
+        System.out.println("DANGER: NO GYRO!!!!");
+        return 0;
+    }
+  }
+
+  // degrees from -180 t0 180
+  public double getHeading(){
+    return navxGyro.getRotation2d().getDegrees();
+  }
+
+  // degrees / second
+  public double getTurnRate(){
+    return -navxGyro.getRate();
   }
 
   // ------ DRIVE METHODS ------ //

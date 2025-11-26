@@ -4,47 +4,39 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.ButterSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutoButterCommand extends RunButterWheelCommand {
-  private final Timer timer;
-  private final double time;
-  /** Creates a new AutoButterCommand. */
-  public AutoButterCommand(ButterSubsystem butter, double time, Timer timer) {
-    super(butter);
-    this.time = time;
-    this.timer = timer;
+public class ReverseIntakeCommand extends Command {
+  private final IntakeSubsystem intake;
+  /** Creates a new RunIntake. */
+  public ReverseIntakeCommand(IntakeSubsystem intake) {
+    this.intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
-    timer.start();
+    intake.setSpeed(-Constants.IntakeConstants.INTAKE_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    super.execute();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    super.end(interrupted);
+    intake.stopMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (timer.hasElapsed(time)) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 }
