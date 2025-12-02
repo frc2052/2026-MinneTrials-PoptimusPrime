@@ -10,11 +10,15 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.ButterSubsystem;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.PopcornSubsytem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -30,7 +34,8 @@ public class RobotContainer {
   private final Drivetrain m_drivetrain = new Drivetrain();
 
   private final Joystick m_controller = new Joystick(0);
-
+  private final PopcornSubsytem m_popcorn = new PopcornSubsytem();
+  private final ButterSubsystem m_butter = new ButterSubsystem();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -57,8 +62,35 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    m_drivetrain.setDefaultCommand(getArcadeDriveCommand());
+
+    //Butter things
+    JoystickButton butterIntakeButton = new JoystickButton(m_controller, 3);
+    butterIntakeButton.whileTrue(new InstantCommand(() -> m_butter.butterIntake()))
+    .onFalse(new InstantCommand(() -> m_butter.stop()));
+
+    JoystickButton butterOutputButton = new JoystickButton(m_controller, 4);
+    butterOutputButton.whileTrue(new InstantCommand(() -> m_butter.butterOutput()))
+    .onFalse(new InstantCommand(() -> m_butter.stop()));
+
+
+    //Popcorn things
+
+    JoystickButton popcornIntakeButton = new JoystickButton(m_controller, 5);
+    popcornIntakeButton.whileTrue(new InstantCommand(() -> m_popcorn.popcornIntake()))
+    .onFalse(new InstantCommand(() -> m_popcorn.stopIntake()));
+
+    JoystickButton popcornOutakeButton = new JoystickButton(m_controller, 2);
+    popcornOutakeButton.whileTrue(new InstantCommand(() -> m_popcorn.popcornOutake()))
+    .onFalse(new InstantCommand(() -> m_popcorn.stopIntake()));
+
+    JoystickButton popcornIndexerButton = new JoystickButton(m_controller, 6);
+    popcornIndexerButton.whileTrue(new InstantCommand(() -> m_popcorn.popcornIndexer()))
+    .onFalse(new InstantCommand(() -> m_popcorn.stopIndexer()));
+
+    JoystickButton popcornShooterButton = new JoystickButton(m_controller, 1);
+    popcornShooterButton.whileTrue(new InstantCommand(() -> m_popcorn.popcornShooter()))
+    .onFalse(new InstantCommand(() -> m_popcorn.stopShooter()));
+
   }
 
   /**
