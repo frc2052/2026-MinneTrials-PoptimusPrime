@@ -12,9 +12,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
   public DriveTrain() {}
+
   private WPI_TalonSRX left_motor = new WPI_TalonSRX(0);
   private WPI_TalonSRX right_motor = new WPI_TalonSRX(1);
   
+  
+
   private final DifferentialDrive differentDrive = new DifferentialDrive(left_motor, right_motor);
   
   public void arcadeDrive(double left_speed, double right_speed) {

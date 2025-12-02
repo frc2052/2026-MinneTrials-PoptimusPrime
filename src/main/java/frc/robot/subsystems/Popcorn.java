@@ -4,11 +4,60 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Popcorn extends SubsystemBase {
   /** Creates a new Popcorn. */
   public Popcorn() {}
+
+  private WPI_TalonSRX popcornIntake_motor = new WPI_TalonSRX(3);
+  private WPI_TalonSRX popcornShooter_motor = new WPI_TalonSRX(4);
+  private WPI_TalonSRX popcornIndexer_motor = new WPI_TalonSRX(5);
+
+  public void popcornIntake() {
+
+    popcornIntake_motor.set(0.1);
+
+  }
+
+  public void popcornOutake() {
+
+    popcornIntake_motor.set(-0.1);
+
+  }
+
+  public void shooter() {
+
+   popcornShooter_motor.set(0.1);
+
+  }
+
+  public void indexer() {
+
+    popcornIndexer_motor.set(0.1);
+
+  }
+
+  public void stopIndexer() {
+
+    popcornIndexer_motor.set(0);
+
+  }
+
+  public void stopIntake() {
+
+    popcornIntake_motor.set(0);
+
+  }
+
+  public void stopShooter() {
+
+    popcornShooter_motor.set(0);
+
+  }
+
 
   @Override
   public void periodic() {
