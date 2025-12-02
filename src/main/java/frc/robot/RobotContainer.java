@@ -64,28 +64,20 @@ public class RobotContainer {
     // cancelling on release.
 
     //Butter things
-    JoystickButton butterIntakeButton = new JoystickButton(m_controller, 3);
+    JoystickButton butterIntakeButton = new JoystickButton(m_controller, 5);
     butterIntakeButton.whileTrue(new InstantCommand(() -> m_butter.butterIntake()))
-    .onFalse(new InstantCommand(() -> m_butter.stop()));
-
-    JoystickButton butterOutputButton = new JoystickButton(m_controller, 4);
-    butterOutputButton.whileTrue(new InstantCommand(() -> m_butter.butterOutput()))
     .onFalse(new InstantCommand(() -> m_butter.stop()));
 
 
     //Popcorn things
 
-    JoystickButton popcornIntakeButton = new JoystickButton(m_controller, 5);
+    JoystickButton popcornIntakeButton = new JoystickButton(m_controller, 2);
     popcornIntakeButton.whileTrue(new InstantCommand(() -> m_popcorn.popcornIntake()))
     .onFalse(new InstantCommand(() -> m_popcorn.stopIntake()));
 
-    JoystickButton popcornOutakeButton = new JoystickButton(m_controller, 2);
+    JoystickButton popcornOutakeButton = new JoystickButton(m_controller, 4);
     popcornOutakeButton.whileTrue(new InstantCommand(() -> m_popcorn.popcornOutake()))
     .onFalse(new InstantCommand(() -> m_popcorn.stopIntake()));
-
-    JoystickButton popcornIndexerButton = new JoystickButton(m_controller, 6);
-    popcornIndexerButton.whileTrue(new InstantCommand(() -> m_popcorn.popcornIndexer()))
-    .onFalse(new InstantCommand(() -> m_popcorn.stopIndexer()));
 
     JoystickButton popcornShooterButton = new JoystickButton(m_controller, 1);
     popcornShooterButton.whileTrue(new InstantCommand(() -> m_popcorn.popcornShooter()))

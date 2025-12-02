@@ -22,7 +22,21 @@ public class Drivetrain extends SubsystemBase {
   m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
   }
 
+  public void resetEncoders(){
 
+  }
+
+  public void getLeftDistanceInch(){
+
+  }
+
+  public void getRightDistanceInch(){
+    
+  }
+
+  public void getAverageDistanceInch(){
+
+  }
 
   @Override
   public void periodic() {

@@ -14,7 +14,6 @@ public class PopcornSubsytem extends SubsystemBase {
 
   private WPI_TalonSRX popcornIntakeMotor = new WPI_TalonSRX(3);
   private WPI_TalonSRX popcornShooterMotor = new WPI_TalonSRX(4);
-  private WPI_TalonSRX popcornIndexerMotor = new WPI_TalonSRX(5);
 
 
   public void popcornIntake() {
@@ -27,10 +26,6 @@ public class PopcornSubsytem extends SubsystemBase {
 
   }
 
- public void popcornIndexer(){
-  popcornIndexerMotor.set (0.1);
-
- }
 
  public void popcornShooter(){
   popcornShooterMotor.set(0.1);
@@ -42,10 +37,7 @@ public class PopcornSubsytem extends SubsystemBase {
 
  }
 
- public void stopIndexer(){
-  popcornIndexerMotor.set(0);
 
- }
 
  public void stopShooter(){
   popcornShooterMotor.set(0);
