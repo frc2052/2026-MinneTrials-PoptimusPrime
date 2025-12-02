@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ZeroGyro extends Command {
+public class ZeroGyroCommand extends Command {
   private final DrivetrainSubsystem drivetrain;
   /** Creates a new ZeroGyro. */
-  public ZeroGyro(DrivetrainSubsystem drivetrain) {
+  public ZeroGyroCommand(DrivetrainSubsystem drivetrain) {
     this.drivetrain = drivetrain;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);

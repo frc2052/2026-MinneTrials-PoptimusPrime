@@ -12,12 +12,11 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutonomousDrivetrainCommand extends SequentialCommandGroup {
   /** Creates a new AutonomouDrivetrainCommand. */
-  public AutonomousDrivetrainCommand(DrivetrainSubsystem drivetrain) {
+  public AutonomousDrivetrainCommand(DrivetrainSubsystem drivetrain, boolean facing, double distance, double degrees) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new DriveDistanceCommand(0,true,0,drivetrain),
-      new TurnDegreesCommand(0,0,drivetrain),
-      new DriveDistanceCommand(0,true, 0,drivetrain));
+      new DriveDistanceCommand(.1,facing,distance,drivetrain),
+      new TurnDegreesCommand(.1,degrees,drivetrain));
   }
 }

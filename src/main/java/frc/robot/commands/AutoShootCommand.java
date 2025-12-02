@@ -14,23 +14,22 @@ public class AutoShootCommand extends Command {
   private final IndexerSubsystem indexer;
   private final ShooterSubsystem shooter;
   private final Timer timer;
-  private double time;
+  private final double time;
 
   /** Creates a new AutoShootCommand. */
-  public AutoShootCommand(IndexerSubsystem indexer, ShooterSubsystem shooter, Timer timer, double time) {
+  public AutoShootCommand(IndexerSubsystem indexer, ShooterSubsystem shooter, double time) {
     this.indexer = indexer;
     this.shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(indexer, shooter);
-    this.timer = timer;
+    this.timer = new Timer();
     this.time = time;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
-    timer.start();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

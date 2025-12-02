@@ -40,16 +40,16 @@ public final class Constants {
 
   public static class IndexerConstants {
     public static final int INDEXER_MOTOR_ID = 3;
-    public static final double INDEX_SPEED = 0;
+    public static final double INDEX_SPEED = 0.1;
   }
 
   public static class IntakeConstants {
     public static final int INTAKE_MOTOR_ID = 4;
-    public static final int INTAKE_SPEED = 0;
+    public static final double INTAKE_SPEED = 0.1;
   }
 
   public static class ShooterConstants {
     public static final int SHOOTER_MOTOR_ID = 5;
-    public static final int SHOT_SPEED = 0;
+    public static final double SHOT_SPEED = 0.1;
   }
 }

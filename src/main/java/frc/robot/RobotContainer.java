@@ -12,13 +12,13 @@ import frc.robot.commands.RunIndexerCommand;
 import frc.robot.commands.RunIntakeCommand;
 import frc.robot.commands.drive.ArcadeDriveCommand;
 import frc.robot.commands.drive.TankDriveCommand;
+import frc.robot.commands.drive.ZeroGyroCommand;
 import frc.robot.subsystems.ButterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -37,7 +37,6 @@ public class RobotContainer {
   private final IndexerSubsystem indexer = new IndexerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
-  private final Timer timer = new Timer();
 
   private boolean isTankDrive = false;
 
@@ -81,6 +80,9 @@ public class RobotContainer {
 
     JoystickButton button5 = new JoystickButton(leftJoystick, 5);
       button5.whileTrue(new RunIndexerCommand(indexer));
+
+    JoystickButton button6 = new JoystickButton(rightJoystick, 3);
+      button6.whileTrue(new ZeroGyroCommand(drivetrain));
   }
   
    /**
@@ -90,6 +92,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new FullAutos(drivetrain, butter, indexer, shooter, timer);
+    return new FullAutos(drivetrain, butter, indexer, shooter);
   }
 }

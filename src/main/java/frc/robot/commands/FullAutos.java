@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.drive.AutonomousDrivetrainCommand;
 import frc.robot.subsystems.ButterSubsystem;
@@ -18,13 +17,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class FullAutos extends SequentialCommandGroup {
   
   /** Creates a new FullAutos. */
-  public FullAutos(DrivetrainSubsystem drivetrain, ButterSubsystem butter, IndexerSubsystem indexer, ShooterSubsystem shooter, Timer timer) {
+  public FullAutos(DrivetrainSubsystem drivetrain, ButterSubsystem butter, IndexerSubsystem indexer, ShooterSubsystem shooter) {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutonomousDrivetrainCommand(drivetrain),
-      new AutoButterCommand(butter, 0, timer),
-      new AutoShootCommand(indexer, shooter, timer, 0));
+      new AutonomousDrivetrainCommand(drivetrain, true ,14, 30),
+      new AutoButterCommand(butter).withTimeout(7),
+      new AutonomousDrivetrainCommand(drivetrain, false, 1, 60),
+      new AutoShootCommand(indexer, shooter, 7));
   }
 }

@@ -4,26 +4,20 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.ButterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoButterCommand extends RunButterWheelCommand {
-  private final Timer timer;
-  private final double time;
   /** Creates a new AutoButterCommand. */
-  public AutoButterCommand(ButterSubsystem butter, double time, Timer timer) {
+  public AutoButterCommand(ButterSubsystem butter) {
     super(butter);
-    this.time = time;
-    this.timer = timer;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
-    timer.start();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,10 +35,6 @@ public class AutoButterCommand extends RunButterWheelCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (timer.hasElapsed(time)) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 }
