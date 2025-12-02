@@ -68,13 +68,13 @@ public class RobotContainer {
     );
 
     JoystickButton button1 = new JoystickButton(leftJoystick, 1);
-      button1.whileTrue(new RunButterWheelCommand(butter));
+      button1.whileTrue(new RunIntakeCommand(intake));
     
-    JoystickButton button2 = new JoystickButton(leftJoystick, 2);
+    JoystickButton button2 = new JoystickButton(rightJoystick, 1);
       button2.whileTrue(new FireShooterCommand(shooter));
 
-    JoystickButton button3 = new JoystickButton(leftJoystick, 3);
-      button3.whileTrue(new RunIntakeCommand(intake));
+    JoystickButton button3 = new JoystickButton(rightJoystick, 2);
+      button3.whileTrue(new RunButterWheelCommand(butter));
 
     JoystickButton button4 = new JoystickButton(leftJoystick, 4);
       button4.whileTrue(new ReverseIntakeCommand(intake));
