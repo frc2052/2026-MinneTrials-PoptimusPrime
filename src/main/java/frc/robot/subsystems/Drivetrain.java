@@ -16,11 +16,11 @@ public class Drivetrain extends SubsystemBase {
 
 
   private final DifferentialDrive m_diffDrive =
-      new DifferentialDrive(leftMotor::set, rightMotor::set);
+    new DifferentialDrive(leftMotor::set, rightMotor::set);
 
-    public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
-    m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
-    }
+  public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
+  m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
+  }
 
 
 
