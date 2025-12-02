@@ -20,6 +20,7 @@ public class PopcornIndexerSubsystem extends SubsystemBase {
   public void startIndexer() {
     indexerMotor.set(Constants.MotorSpeeds.popcornIndexerMotorSpeed);
   }
+  
 
   public void stopIndexerMotor() {
     indexerMotor.set(0);

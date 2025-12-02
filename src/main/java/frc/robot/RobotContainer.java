@@ -7,13 +7,25 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.Autos;
+import frc.robot.commands.ButterIntakeCommand;
+import frc.robot.commands.ButterIntakeReverseCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.PopcornIndexerCommand;
+import frc.robot.commands.PopcornIntakeCommand;
+import frc.robot.commands.PopcornIntakeReverseCommand;
+import frc.robot.commands.PopcornShooterCommand;
+import frc.robot.commands.PopcornShooterReverseCommand;
+import frc.robot.subsystems.ButterIntakeSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.PopcornIndexerSubsystem;
+import frc.robot.subsystems.PopcornIntakeSubsystem;
+import frc.robot.subsystems.PopcornShooterSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -25,6 +37,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem drivetrainSubsystem;
+  private final ButterIntakeSubsystem butterIntake;
+  private final PopcornIndexerSubsystem popcornIndexer;
+  private final PopcornShooterSubsystem popcornShooter;
+  private final PopcornIntakeSubsystem popcornIntake;
 
   private final Joystick joystick1 = new Joystick(0);
 
@@ -35,6 +51,10 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     drivetrainSubsystem = new DrivetrainSubsystem();
+    butterIntake = new ButterIntakeSubsystem();
+    popcornIndexer = new PopcornIndexerSubsystem();
+    popcornShooter = new PopcornShooterSubsystem();
+    popcornIntake = new PopcornIntakeSubsystem();
     // Configure the trigger bindings
     configureBindings();
   }
@@ -56,6 +76,19 @@ public class RobotContainer {
         () -> joystick1.getX()
       )
     );
+    JoystickButton shootButton = new JoystickButton(joystick1, 1);
+    shootButton.whileTrue(new PopcornShooterCommand(popcornShooter));
+    JoystickButton outShootButton = new JoystickButton(joystick1, 2);
+    outShootButton.whileTrue(new PopcornShooterReverseCommand(popcornShooter));
+    JoystickButton pIntakeButton = new JoystickButton(joystick1, 3);
+    pIntakeButton.whileTrue(new PopcornIntakeCommand(popcornIntake));
+    JoystickButton pOuttakeButton = new JoystickButton(joystick1, 5);
+    pOuttakeButton.whileTrue(new PopcornIntakeReverseCommand(popcornIntake));
+    JoystickButton budaButton = new JoystickButton(joystick1, 4);
+    budaButton.whileTrue(new ButterIntakeCommand(butterIntake));
+    JoystickButton budaOuttakeButton = new JoystickButton(joystick1, 6);
+    budaOuttakeButton.whileTrue(new ButterIntakeReverseCommand(butterIntake));
+
   }
 
   /**
