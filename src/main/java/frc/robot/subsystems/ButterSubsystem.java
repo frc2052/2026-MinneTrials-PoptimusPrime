@@ -6,17 +6,18 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ButterSubsystem extends SubsystemBase {
-  private final WPI_TalonSRX butterMotorSRX;
+  private final VictorSPX butterMotorSRX;
 
   /** Creates a new ButterSubsystem. */
   public ButterSubsystem() {
-    butterMotorSRX = new WPI_TalonSRX(Constants.ButterConstants.BUTTER_MOTOR_ID);
+    butterMotorSRX = new VictorSPX(Constants.ButterConstants.BUTTER_MOTOR_ID);
     butterMotorSRX.setNeutralMode(NeutralMode.Brake);
   }
 
@@ -26,7 +27,7 @@ public class ButterSubsystem extends SubsystemBase {
   }
 
   public void setSpeed(double speed) {
-    butterMotorSRX.set(speed);
+    butterMotorSRX.set(VictorSPXControlMode.PercentOutput, speed);
   }
 
   public void stopMotor() {

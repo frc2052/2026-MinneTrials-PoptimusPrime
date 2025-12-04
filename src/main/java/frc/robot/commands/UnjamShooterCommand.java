@@ -6,22 +6,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ReverseIntakeCommand extends Command {
-  private final IntakeSubsystem intake;
-  /** Creates a new RunIntake. */
-  public ReverseIntakeCommand(IntakeSubsystem intake) {
-    this.intake = intake;
+public class UnjamShooterCommand extends Command {
+  private final ShooterSubsystem shooter;
+
+  /** Creates a new FireShooter. */
+  public UnjamShooterCommand(ShooterSubsystem shooter) {
+    this.shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake);
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.setSpeed(Constants.IntakeConstants.OUTTAKE_SPEED);
+    shooter.setSpeed(-Constants.ShooterConstants.SHOT_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +32,7 @@ public class ReverseIntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.stopMotor();
+    shooter.stopMotor();
   }
 
   // Returns true when the command should end.

@@ -6,18 +6,23 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final WPI_TalonSRX intakeMotorSRX;
+  private final VictorSPX intakeMotorSRX;
+  private TrapezoidProfile rampUp;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-    intakeMotorSRX = new WPI_TalonSRX(Constants.IntakeConstants.INTAKE_MOTOR_ID);
-    intakeMotorSRX.setNeutralMode(NeutralMode.Brake);
+    intakeMotorSRX = new VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ID);
+    intakeMotorSRX.setNeutralMode(NeutralMode.Coast);
+    intakeMotorSRX.configOpenloopRamp(0.5);
   }
 
   @Override
@@ -26,7 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setSpeed(double speed) {
-    intakeMotorSRX.set(speed);
+    intakeMotorSRX.set(VictorSPXControlMode.PercentOutput, speed);
   }
 
   public void stopMotor() {

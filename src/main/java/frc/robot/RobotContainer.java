@@ -9,6 +9,7 @@ import frc.robot.commands.FireShooterCommand;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.commands.RunButterWheelCommand;
 import frc.robot.commands.RunIntakeCommand;
+import frc.robot.commands.UnjamShooterCommand;
 import frc.robot.subsystems.ButterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -35,7 +36,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     drivetrain.setDefaultCommand(
-        new ArcadeDriveCommand(drivetrain, leftJoystick::getY, leftJoystick::getX)
+        new ArcadeDriveCommand(drivetrain, leftJoystick::getY, rightJoystick::getX)
     );
     configureBindings();
   }
@@ -46,11 +47,13 @@ public class RobotContainer {
     
     JoystickButton button2 = new JoystickButton(rightJoystick, 1);
       button2.whileTrue(new FireShooterCommand(shooter));
+    JoystickButton unjamButton = new JoystickButton(rightJoystick, 2);
+      unjamButton.whileTrue(new UnjamShooterCommand(shooter));
 
-    JoystickButton button3 = new JoystickButton(rightJoystick, 2);
+    JoystickButton button3 = new JoystickButton(leftJoystick, 4);
       button3.whileTrue(new RunButterWheelCommand(butter));
 
-    JoystickButton button4 = new JoystickButton(leftJoystick, 4);
+    JoystickButton button4 = new JoystickButton(leftJoystick, 3);
       button4.whileTrue(new ReverseIntakeCommand(intake));
   }
   
