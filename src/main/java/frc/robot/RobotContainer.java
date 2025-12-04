@@ -4,18 +4,16 @@
 
 package frc.robot;
 
-import frc.robot.commands.ArcadeDriveCommand;
-import frc.robot.commands.FireShooterCommand;
-import frc.robot.commands.ReverseIntakeCommand;
-import frc.robot.commands.RunButterWheelCommand;
-import frc.robot.commands.RunIntakeCommand;
-import frc.robot.subsystems.ButterSubsystem;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.autos.butterAutoCommand;
+import frc.robot.subsystems.Butter;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Popcorn;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,42 +23,51 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
-  private final ButterSubsystem butter = new ButterSubsystem();
-  private final IntakeSubsystem intake = new IntakeSubsystem();
-  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final Butter m_ButterSubsystem = new Butter();
+  private final Popcorn m_PopcornSubsystem = new Popcorn();
+  private final DriveTrain m_DriveTrainSubsystem = new DriveTrain();
 
-  private final Joystick leftJoystick = new Joystick(0);
-  private final Joystick rightJoystick = new Joystick(1);
+  private final Joystick joystickOne = new Joystick(0);
 
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    drivetrain.setDefaultCommand(
-        new ArcadeDriveCommand(drivetrain, leftJoystick::getY, leftJoystick::getX)
-    );
+    // Configure the trigger bindings
     configureBindings();
   }
 
+  /**
+   * Use this method to define your trigger->command mappings. Triggers can be created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * predicate, or via the named factories in {@link
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * joysticks}.
+   */
   private void configureBindings() {
-    JoystickButton button1 = new JoystickButton(leftJoystick, 1);
-      button1.whileTrue(new RunIntakeCommand(intake));
-    
-    JoystickButton button2 = new JoystickButton(rightJoystick, 1);
-      button2.whileTrue(new FireShooterCommand(shooter));
 
-    JoystickButton button3 = new JoystickButton(rightJoystick, 2);
-      button3.whileTrue(new RunButterWheelCommand(butter));
 
-    JoystickButton button4 = new JoystickButton(leftJoystick, 4);
-      button4.whileTrue(new ReverseIntakeCommand(intake));
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // cancelling on release.
+
+    JoystickButton ButterButton = new JoystickButton(joystickOne, 3);
+    ButterButton.whileTrue(new InstantCommand(() -> m_ButterSubsystem.butterMethodCommand()))
+    .onFalse(new InstantCommand(() -> m_ButterSubsystem.stop()));
+
+    JoystickButton PopcornButton = new JoystickButton(joystickOne, 4);
+    PopcornButton.whileTrue(new InstantCommand(() -> m_PopcornSubsystem.popcornMethodCommand()))
+    .onFalse(new InstantCommand(() -> m_PopcornSubsystem.stop()));
+
+    m_DriveTrainSubsystem.setDefaultCommand(getAutonomousCommand());
   }
-  
-   /**
+
+  /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return new butterAutoCommand();
   }
 }
