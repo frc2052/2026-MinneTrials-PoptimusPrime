@@ -70,6 +70,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new DriveDistanceCommand(0.75, Meters.of(1), drivetrain).andThen(new TurnDegreesCommand(drivetrain, 90, false)).andThen(new DriveDistanceCommand(0.75, Meters.of(1), drivetrain));
+    return new DriveDistanceCommand(Meters.of(1), drivetrain).andThen(new TurnDegreesCommand(drivetrain, 90, false)).andThen(new DriveDistanceCommand(Meters.of(1), drivetrain));
   }
 }

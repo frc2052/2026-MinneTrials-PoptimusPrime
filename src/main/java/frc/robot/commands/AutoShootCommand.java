@@ -2,49 +2,56 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.drive;
+package frc.robot.commands;
 
-import static edu.wpi.first.units.Units.Meters;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class DriveDistanceCommand extends Command {
-  private final Distance distance;
-  private final DrivetrainSubsystem drivetrain;
+public class AutoShootCommand extends Command {
+  private final ShooterSubsystem shooter;
+  private final Timer timer;
+  private final double time;
 
-  /** Creates a new DriveDistance. */
-  public DriveDistanceCommand(Distance distance, DrivetrainSubsystem drivetrain) {
-    this.drivetrain = drivetrain;
-    this.distance = distance;
+  /** Creates a new AutoShootCommand. */
+  public AutoShootCommand(ShooterSubsystem shooter, double time) {
+    this.shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivetrain);
+    addRequirements(shooter);
+    this.timer = new Timer();
+    this.time = time;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.arcadeDrive(0.0,0.0);
-    drivetrain.resetOdometry(Pose2d.kZero);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      drivetrain.arcadeDrive(.75,0.0);
+    if(timer.get() < 1.5) {
+      new UnjamShooterCommand(shooter);
+    } else if(timer.get() < 5) {
+      new FireShooterCommand(shooter);
+    } else {
+      timer.reset();
+    }
   }
+
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    drivetrain.arcadeDrive(0.0,0.0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(drivetrain.getPose().getX()) >= distance.in(Meters);
+    if (timer.hasElapsed(time)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
