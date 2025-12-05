@@ -5,7 +5,7 @@
 package frc.robot;
 
 import frc.robot.autos.butterAutoCommand;
-import frc.robot.subsystems.Butter;
+import frc.robot.subsystems.ButterSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Popcorn;
 import edu.wpi.first.wpilibj.Joystick;
@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Butter m_ButterSubsystem = new Butter();
+  private final ButterSubsystem m_ButterSubsystem = new ButterSubsystem();
   private final Popcorn m_PopcornSubsystem = new Popcorn();
   private final DriveTrain m_DriveTrainSubsystem = new DriveTrain();
 
@@ -51,8 +51,8 @@ public class RobotContainer {
     // cancelling on release.
 
     JoystickButton ButterButton = new JoystickButton(joystickOne, 3);
-    ButterButton.whileTrue(new InstantCommand(() -> m_ButterSubsystem.butterMethodCommand()))
-    .onFalse(new InstantCommand(() -> m_ButterSubsystem.stop()));
+    ButterButton.whileTrue(new InstantCommand(() -> m_ButterSubsystem.setSpeed(Constants.ButterConstants.MOTOR_SPEED)))
+    .onFalse(new InstantCommand(() -> m_ButterSubsystem.stopMotor()));
 
     JoystickButton PopcornButton = new JoystickButton(joystickOne, 4);
     PopcornButton.whileTrue(new InstantCommand(() -> m_PopcornSubsystem.popcornMethodCommand()))
@@ -68,6 +68,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new butterAutoCommand();
+    return new butterAutoCommand(true, m_ButterSubsystem);
   }
 }
