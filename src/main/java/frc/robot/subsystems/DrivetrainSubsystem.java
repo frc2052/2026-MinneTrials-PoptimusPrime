@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -58,10 +59,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     leftMotorSRX.setSensorPhase(true);
     rightMotorSRX.setSensorPhase(true);
 
-    leftMotorSRX.setInverted(true);
-    rightMotorSRX.setInverted(false);
+    leftMotorSRX.setInverted(false);
+    rightMotorSRX.setInverted(true);
 
-
+    resetEncoders();
 
     diffDrive = new DifferentialDrive(leftMotorSRX, rightMotorSRX);
 
@@ -74,6 +75,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    odometry.update(Rotation2d.fromDegrees(getGyroAngleDegrees()), positionToDistance(leftMotorSRX.getSelectedSensorPosition()),
+    positionToDistance(rightMotorSRX.getSelectedSensorPosition()));
   }
 
   public Pose2d getPose() {
@@ -129,14 +132,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   // ------ GYRO METHODS ------ //
 
-  // tracks all rotations from init: can go beyond 360 and -360
   public void zeroHeading() {
     System.out.println("GYRO ZEROED");
-    pigeonGyro.reset();
+    pigeonGyro.setYaw(0);
   }
 
   public double getGyroAngleDegrees() {
-    return pigeonGyro.getYaw().getValueAsDouble();
+    return MathUtil.inputModulus(pigeonGyro.getYaw().getValueAsDouble(), 0, 360);
   }
 
   public double getGyroAngleRadians() {
@@ -159,10 +161,5 @@ public class DrivetrainSubsystem extends SubsystemBase {
     rightMotorSRX.set(ControlMode.PercentOutput, 0);
     leftMotorSRX.feed();
     rightMotorSRX.feed();
-  }
-
-  public void zeroGyro() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'zeroGyro'");
   }
 }

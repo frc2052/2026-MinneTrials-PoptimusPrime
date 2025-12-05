@@ -8,11 +8,17 @@ import frc.robot.commands.FireShooterCommand;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.commands.RunButterWheelCommand;
 import frc.robot.commands.RunIntakeCommand;
+import frc.robot.commands.drive.ZeroGyroCommand;
 import frc.robot.commands.drive.ArcadeDriveCommand;
+import frc.robot.commands.drive.DriveDistanceCommand;
+import frc.robot.commands.drive.TurnDegreesCommand;
 import frc.robot.subsystems.ButterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+
+import static edu.wpi.first.units.Units.Meters;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -42,16 +48,19 @@ public class RobotContainer {
 
   private void configureBindings() {
     JoystickButton button1 = new JoystickButton(leftJoystick, 1);
-      button1.whileTrue(new RunIntakeCommand(intake));
+    button1.whileTrue(new RunIntakeCommand(intake));
     
     JoystickButton button2 = new JoystickButton(rightJoystick, 1);
-      button2.whileTrue(new FireShooterCommand(shooter));
+    button2.whileTrue(new FireShooterCommand(shooter));
 
     JoystickButton button3 = new JoystickButton(leftJoystick, 4);
-      button3.whileTrue(new RunButterWheelCommand(butter));
+    button3.whileTrue(new RunButterWheelCommand(butter));
 
     JoystickButton button4 = new JoystickButton(leftJoystick, 3);
-      button4.whileTrue(new ReverseIntakeCommand(intake));
+    button4.whileTrue(new ReverseIntakeCommand(intake));
+
+    JoystickButton zeroHeading = new JoystickButton(leftJoystick, 12);
+    zeroHeading.onTrue(new ZeroGyroCommand(drivetrain));
   }
   
    /**
@@ -61,6 +70,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return new DriveDistanceCommand(0.75, Meters.of(1), drivetrain).andThen(new TurnDegreesCommand(drivetrain, 90, false)).andThen(new DriveDistanceCommand(0.75, Meters.of(1), drivetrain));
   }
 }

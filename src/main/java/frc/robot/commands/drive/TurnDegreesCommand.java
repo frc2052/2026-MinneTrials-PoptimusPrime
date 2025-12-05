@@ -4,54 +4,45 @@
 
 package frc.robot.commands.drive;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class TurnDegreesCommand extends Command {
-  private double degChangeReq;
-  private double initialDegreeVal;
-  private DrivetrainSubsystem drivetrain;
+  private double heading;
+  private final DrivetrainSubsystem drivetrain;
   private boolean clockwise;
 
-  /** Creates a new RotateSetDegrees. */
-  public TurnDegreesCommand(DrivetrainSubsystem drivetrain, double degreesRequested, boolean clockwise) {
+  public TurnDegreesCommand(DrivetrainSubsystem drivetrain, double heading, boolean clockwise) {
     this.drivetrain = drivetrain;
-    degChangeReq = degreesRequested;
-    initialDegreeVal = 0.0;
+    this.heading = heading;
     this.clockwise = clockwise;
+    addRequirements(drivetrain);
   }
 
   @Override
-  public void initialize() {
-      initialDegreeVal = drivetrain.getGyroAngleDegrees();
-  }
+  public void initialize() {}
 
   @Override
-  public void execute() { // add math for direction
-    
+  public void execute() {
     if(clockwise == true){
-      drivetrain.arcadeDrive(0, -0.7);
+      drivetrain.arcadeDrive(0, -0.75);
     } else {
-      drivetrain.arcadeDrive(0, 0.7);
+      drivetrain.arcadeDrive(0, 0.75);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    drivetrain.arcadeDrive(0, 0);
-    new InstantCommand(() -> drivetrain.zeroAll());
+    drivetrain.tankDrive(0, 0);
   }
 
   @Override
   public boolean isFinished() {
-    System.out.println("GYRO DEGREES: " + drivetrain.getGyroAngleDegrees());
-    System.out.println("REQUEST DEGREE: " + initialDegreeVal + degChangeReq);
-    if(drivetrain.getGyroAngleDegrees() < (initialDegreeVal + degChangeReq)){
-      return false;
-    } else {
-      System.out.println("===== STOP ROTATING");
+    if (MathUtil.isNear(heading, drivetrain.getGyroAngleDegrees(), 7)) {
       return true;
+    } else {
+      return false;
     }
   }
 }
