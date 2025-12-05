@@ -2,21 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Constants.DriveTrain;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class RotateSetDegrees extends Command {
+public class TurnDegreesCommand extends Command {
   private double degChangeReq;
   private double initialDegreeVal;
   private DrivetrainSubsystem drivetrain;
   private boolean clockwise;
 
   /** Creates a new RotateSetDegrees. */
-  public RotateSetDegrees(DrivetrainSubsystem drivetrain, double degreesRequested, boolean clockwise) {
+  public TurnDegreesCommand(DrivetrainSubsystem drivetrain, double degreesRequested, boolean clockwise) {
     this.drivetrain = drivetrain;
     degChangeReq = degreesRequested;
     initialDegreeVal = 0.0;

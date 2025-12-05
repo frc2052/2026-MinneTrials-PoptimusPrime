@@ -160,4 +160,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     leftMotorSRX.feed();
     rightMotorSRX.feed();
   }
+
+  public void zeroGyro() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'zeroGyro'");
+  }
 }

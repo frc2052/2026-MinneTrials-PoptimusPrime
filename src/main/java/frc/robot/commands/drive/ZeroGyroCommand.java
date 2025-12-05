@@ -20,7 +20,7 @@ public class ZeroGyroCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.zeroGyro();
+    drivetrain.zeroHeading();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

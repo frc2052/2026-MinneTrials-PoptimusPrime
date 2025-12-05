@@ -4,6 +4,7 @@
 
 package frc.robot.commands.drive;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -28,7 +29,7 @@ public class DriveDistanceCommand extends Command {
   public void initialize() {
     drivetrain.arcadeDrive(0.0,0.0);
     drivetrain.resetEncoders();
-    drivetrain.resetOdometry();
+    drivetrain.resetOdometry(Pose2d.kZero);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
