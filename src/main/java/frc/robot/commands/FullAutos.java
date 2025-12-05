@@ -6,8 +6,14 @@ package frc.robot.commands;
 
 import static edu.wpi.first.units.Units.Meters;
 
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.drive.ArcadeDriveCommand;
 import frc.robot.commands.drive.AutonomousDrivetrainCommand;
+import frc.robot.commands.drive.DriveDistanceCommand;
+import frc.robot.commands.drive.TurnDegreesCommand;
+import frc.robot.commands.drive.ZeroGyroCommand;
 import frc.robot.subsystems.ButterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -23,9 +29,14 @@ public class FullAutos extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutonomousDrivetrainCommand(drivetrain, Meters.of(3), 90, false),
-      new AutoButterCommand(butter).withTimeout(4),
-      new AutonomousDrivetrainCommand(drivetrain, Meters.of(2), 90, true),
+      new InstantCommand(() -> drivetrain.zeroHeading()),
+      Commands.waitSeconds(0.25),
+      new DriveDistanceCommand(Meters.of(3), drivetrain),
+      new TurnDegreesCommand(drivetrain, 90, false),
+      new DriveDistanceCommand(Meters.of(2),drivetrain),
+      new RunButterWheelCommand(butter).withTimeout(4),
+      new ArcadeDriveCommand(drivetrain, () -> -.75, () -> 0.0).withTimeout(1),
+      new TurnDegreesCommand(drivetrain, 0, true),
       new AutoShootCommand(shooter, 7));
   }
 }

@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.FireShooterCommand;
+import frc.robot.commands.FullAutos;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.commands.RunButterWheelCommand;
 import frc.robot.commands.RunIntakeCommand;
@@ -70,6 +71,5 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new DriveDistanceCommand(Meters.of(1), drivetrain).andThen(new TurnDegreesCommand(drivetrain, 90, false)).andThen(new DriveDistanceCommand(Meters.of(1), drivetrain));
-  }
+    return new FullAutos(drivetrain, butter, shooter);  }
 }
