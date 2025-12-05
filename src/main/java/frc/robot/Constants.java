@@ -28,16 +28,17 @@ public final class Constants {
 
   public static class ButterConstants {
     public static final int BUTTER_MOTOR_ID = 2;
-    public static final double MOTOR_SPEED = 0.1;
+    public static final double MOTOR_SPEED = 1;
   }
 
   public static class IntakeConstants {
     public static final int INTAKE_MOTOR_ID = 4;
     public static final double INTAKE_SPEED = 1.0;
+    public static final double OUTTAKE_SPEED = -1.0;
   }
 
   public static class ShooterConstants {
     public static final int SHOOTER_MOTOR_ID = 5;
-    public static final double SHOT_SPEED = 0.85;
+    public static final double SHOT_SPEED = 1;
   }
 }
