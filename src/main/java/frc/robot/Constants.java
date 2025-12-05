@@ -18,6 +18,7 @@ public final class Constants {
   public static class DrivetrainConstants {
     public static final int LEFT_MOTOR_ID = 0;
     public static final int RIGHT_MOTOR_ID = 1;
+    public static final int PIGEON_ID = 3;
 
     public static final int VELOCITY_CONTROL_SLOT = 0;
     public static final int CAN_TIMEOUT = 20;

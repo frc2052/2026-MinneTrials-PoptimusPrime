@@ -4,12 +4,11 @@
 
 package frc.robot;
 
-import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.FireShooterCommand;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.commands.RunButterWheelCommand;
 import frc.robot.commands.RunIntakeCommand;
-import frc.robot.commands.UnjamShooterCommand;
+import frc.robot.commands.drive.ArcadeDriveCommand;
 import frc.robot.subsystems.ButterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -47,8 +46,6 @@ public class RobotContainer {
     
     JoystickButton button2 = new JoystickButton(rightJoystick, 1);
       button2.whileTrue(new FireShooterCommand(shooter));
-    JoystickButton unjamButton = new JoystickButton(rightJoystick, 2);
-      unjamButton.whileTrue(new UnjamShooterCommand(shooter));
 
     JoystickButton button3 = new JoystickButton(leftJoystick, 4);
       button3.whileTrue(new RunButterWheelCommand(butter));
