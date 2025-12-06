@@ -5,10 +5,12 @@
 package frc.robot;
 
 import frc.robot.commands.FireShooterCommand;
-import frc.robot.commands.FullAutos;
+import frc.robot.commands.FullAutosBlue;
+import frc.robot.commands.FullAutosRed;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.commands.RunButterWheelCommand;
 import frc.robot.commands.RunIntakeCommand;
+import frc.robot.commands.UnjamShooterCommand;
 import frc.robot.commands.drive.ZeroGyroCommand;
 import frc.robot.commands.drive.ArcadeDriveCommand;
 import frc.robot.commands.drive.DriveDistanceCommand;
@@ -53,6 +55,10 @@ public class RobotContainer {
     
     JoystickButton button2 = new JoystickButton(rightJoystick, 1);
     button2.whileTrue(new FireShooterCommand(shooter));
+    
+    JoystickButton unjam = new JoystickButton(rightJoystick, 2);
+    unjam.whileTrue(new UnjamShooterCommand(shooter));
+
 
     JoystickButton button3 = new JoystickButton(leftJoystick, 4);
     button3.whileTrue(new RunButterWheelCommand(butter));
@@ -71,5 +77,5 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new FullAutos(drivetrain, butter, shooter);  }
+    return new FullAutosRed(drivetrain, butter, shooter);  }
 }

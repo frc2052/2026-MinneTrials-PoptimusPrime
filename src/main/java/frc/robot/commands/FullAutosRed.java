@@ -21,22 +21,20 @@ import frc.robot.subsystems.ShooterSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class FullAutos extends SequentialCommandGroup {
+public class FullAutosRed extends SequentialCommandGroup {
   
   /** Creates a new FullAutos. */
-  public FullAutos(DrivetrainSubsystem drivetrain, ButterSubsystem butter, ShooterSubsystem shooter) {
+  public FullAutosRed(DrivetrainSubsystem drivetrain, ButterSubsystem butter, ShooterSubsystem shooter) {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(() -> drivetrain.zeroHeading()),
       Commands.waitSeconds(0.25),
-      new DriveDistanceCommand(Meters.of(3), drivetrain),
-      new TurnDegreesCommand(drivetrain, 90, false),
-      new DriveDistanceCommand(Meters.of(2),drivetrain),
-      new RunButterWheelCommand(butter).withTimeout(4),
-      new ArcadeDriveCommand(drivetrain, () -> -.75, () -> 0.0).withTimeout(1),
-      new TurnDegreesCommand(drivetrain, 0, true),
+      new DriveDistanceCommand(Meters.of(1.25), drivetrain),
+      new TurnDegreesCommand(drivetrain, 270, true),
+      new RunButterWheelCommand(butter).withTimeout(1.0),
+      new TurnDegreesCommand(drivetrain, 330, false),
       new AutoShootCommand(shooter, 7));
   }
 }

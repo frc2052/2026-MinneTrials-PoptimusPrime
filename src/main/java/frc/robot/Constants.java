@@ -29,7 +29,7 @@ public final class Constants {
 
   public static class ButterConstants {
     public static final int BUTTER_MOTOR_ID = 2;
-    public static final double MOTOR_SPEED = 1;
+    public static final double MOTOR_SPEED = 0.75;
   }
 
   public static class IntakeConstants {
